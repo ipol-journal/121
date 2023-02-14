@@ -143,7 +143,7 @@ else:
 
 # Convert EPS to PDF
 try:
-    subprocess.run(['/usr/bin/gs', 
+    subprocess.run(['gs', 
         '-dSAFER', '-q', '-P-', '-dCompatibilityLevel=1.4',
         '-dNOPAUSE', '-dBATCH', '-sDEVICE=pdfwrite', 
         '-sOutputFile=contour.pdf', '-c', '.setpdfwrite', 

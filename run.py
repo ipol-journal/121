@@ -143,11 +143,7 @@ else:
 
 # Convert EPS to PDF
 try:
-    subprocess.run(['gs', 
-        '-dSAFER', '-q', '-P-', '-dCompatibilityLevel=1.4',
-        '-dNOPAUSE', '-dBATCH', '-sDEVICE=pdfwrite', 
-        '-sOutputFile=contour.pdf', '-c', '.setpdfwrite', 
-        '-f', 'contour.eps'])
+    subprocess.run(['gs', '-dSAFER', '-q', '-P-', '-dCompatibilityLevel=1.4', '-dNOPAUSE', '-dBATCH', '-sDEVICE=pdfwrite', '-sOutputFile=contour.pdf', '-c', '.setpdfwrite', '-f', 'contour.eps'])
 except OSError:
     with open("demo_failure.txt", "w") as file:
         file.write("eps->pdf conversion failed,"

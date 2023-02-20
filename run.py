@@ -84,10 +84,10 @@ else:
     displaysize = (displayzoom*sizeX, displayzoom*sizeY)
     
     # Coarsen the image
-    p['coarsened'] = subprocess.run(['imcoarsen', '-g', grid, '-x', str(args.scalefactor), '-p', str(args.psfsigma), 'input_0_sel.png', 'coarsened.png'])
+    p['coarsened'] = subprocess.run(['imcoarsen', '-g', grid, '-x', str(args.scalefactor), '-p', str(args.psfsigma), 'input_0.png', 'coarsened.png'])
     
     if displayzoom > 1:
-        p['exactzoom'] = subprocess.run(['nninterp', '-g', 'centered', '-x', str(displayzoom), 'input_0_sel.png', 'input_0_sel_zoom.png'])
+        p['exactzoom'] = subprocess.run(['nninterp', '-g', 'centered', '-x', str(displayzoom), 'input_0.png', 'input_0_sel_zoom.png'])
     
     p = {
         'interpolated' : 
@@ -133,9 +133,9 @@ else:
         img.save('interpolated.png')
                 
     # Generate difference image
-    p['difference'] = subprocess.run(['imdiff', 'input_0_sel.png', 'interpolated.png', 'difference.png'])
+    p['difference'] = subprocess.run(['imdiff', 'input_0.png', 'interpolated.png', 'difference.png'])
     # Compute maximum difference, PSNR, and MSSIM
-    p['metrics'] = subprocess.run(['imdiff', 'input_0_sel.png', 'interpolated.png'])
+    p['metrics'] = subprocess.run(['imdiff', 'input_0.png', 'interpolated.png'])
     
     if displayzoom > 1:
         p['interpzoom'] = subprocess.run(['nninterp', '-g', 'centered', '-x', str(displayzoom), 'interpolated.png', 'interpolated_zoom.png'])

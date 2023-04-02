@@ -36,26 +36,26 @@ if args.action == "Interpolate":
         (x0, y0) = (int(math.floor((sizeX - cropsize[0])/2)),
             int(math.floor((sizeY - cropsize[1])/2)))
         imgcrop = img.crop((x0, y0, x0 + cropsize[0], y0 + cropsize[1]))
-        imgcrop.save('input_0_sel.png')
+        imgcrop.save('input_0.png')
     
     p = {
         # Perform the actual contour stencil interpolation
         'interp' : 
-            subprocess.run(['sinterp', '-g', grid, '-x', str(args.scalefactor), '-p', str(args.psfsigma), 'input_0_sel.png', 'interpolated.png']),
+            subprocess.run(['sinterp', '-g', grid, '-x', str(args.scalefactor), '-p', str(args.psfsigma), 'input_0.png', 'interpolated.png']),
             
         # For display, create a nearest neighbor zoomed version of the
         # input. nninterp does nearest neighbor interpolation on 
         # precisely the same grid so that displayed images are aligned.
         'inputzoom' : 
-            subprocess.run(['nninterp', '-g', grid, '-x', str(args.scalefactor*displayzoom), 'input_0_sel.png', 'input_0_zoom.png']),
+            subprocess.run(['nninterp', '-g', grid, '-x', str(args.scalefactor*displayzoom), 'input_0.png', 'input_0_zoom.png']),
             
         # Generate an image showing the estimated contour orientations
         'contour' : 
-            subprocess.run(['sinterp', '-s', '-g', grid, '-x', str(args.scalefactor*displayzoom), '-p', str(args.psfsigma), 'input_0_sel.png', 'contour.png']),
+            subprocess.run(['sinterp', '-s', '-g', grid, '-x', str(args.scalefactor*displayzoom), '-p', str(args.psfsigma), 'input_0.png', 'contour.png']),
             
         # Estimated contour orientations as EPS
         'contour-eps' : 
-            subprocess.run(['sinterp', '-s', '-g', grid, '-x', str(args.scalefactor*displayzoom), '-p', str(args.psfsigma), 'input_0_sel.png', 'contour.eps']),
+            subprocess.run(['sinterp', '-s', '-g', grid, '-x', str(args.scalefactor*displayzoom), '-p', str(args.psfsigma), 'input_0.png', 'contour.eps']),
             
         # Estimated contour orientations as SVG
         'contour-svg' : 
@@ -63,7 +63,7 @@ if args.action == "Interpolate":
             '-g', grid,
             '-x', str(args.scalefactor*displayzoom), 
             '-p', str(args.psfsigma),
-            'input_0_sel.png', 'contour.svg', 'contour-bg.png'],
+            'input_0.png', 'contour.svg', 'contour-bg.png'],
             stdout=logfile, stderr=logfile)
         }
     

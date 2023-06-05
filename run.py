@@ -14,7 +14,7 @@ ap.add_argument("psfsigma", type=float)
 ap.add_argument("action", type=str)
 args = ap.parse_args()
 
-grid = "centered"
+grid = 'centered'
 
 img = PIL.Image.open('input_0.png')
 (sizeX, sizeY) = img.size        
@@ -22,9 +22,6 @@ p = {}
 logfile = open('log.txt', 'w')
 
 if args.action == "Interpolate":
-    #write Interpolate=True in algo_info.txt
-    with open('algo_info.txt', 'w') as file:
-        file.write("Interpolate=1")
     # In this run mode, the interpolation is performed directly on the
     # selected image, and the estimated contours are also shown.
     
@@ -71,13 +68,15 @@ if args.action == "Interpolate":
         }
     
     if displayzoom > 1:
+        #write displayzoom=True in algo_info.txt
+        with open('algo_info.txt', 'w') as file:
+            file.write("displayzoom=1")        
         p['interpzoom'] = subprocess.run(['nninterp', '-g', 'centered', '-x', str(displayzoom), 'interpolated.png', 'interpolated_zoom.png'])
-
+    else:
+        #write notdisplayzoom=True in algo_info.txt
+        with open('algo_info.txt', 'a') as file:
+            file.write("notdisplayzoom=1")
 else:
-    #write Coarsen=True in algo_info.txt
-    with open('algo_info.txt', 'w') as file:
-        file.write("Coarsen=1")
-
     # In this run mode, the selected image is coarsened, interpolated
     # and compared with the original.
                 
@@ -90,7 +89,14 @@ else:
     p['coarsened'] = subprocess.run(['imcoarsen', '-g', grid, '-x', str(args.scalefactor), '-p', str(args.psfsigma), 'input_0.png', 'coarsened.png'])
     
     if displayzoom > 1:
+        #write displayzoom=True in algo_info.txt
+        with open('algo_info.txt', 'w') as file:
+            file.write("displayzoom=1") 
         p['exactzoom'] = subprocess.run(['nninterp', '-g', 'centered', '-x', str(displayzoom), 'input_0.png', 'input_0_zoom.png'])
+    else:
+        #write notdisplayzoom=True in algo_info.txt
+        with open('algo_info.txt', 'w') as file:
+            file.write("notdisplayzoom=1")    
     
     p = {
         'interpolated' : 
@@ -123,8 +129,8 @@ else:
     img = PIL.Image.open('coarsened_zoom.png')
     
     if displaysize != img.size:
-        img.crop((0, 0, displaysize[0], displaysize[1]))
-        img.save('coarsened_zoom.png')
+        imgcrop = img.crop((0, 0, displaysize[0], displaysize[1]))
+        imgcrop.save('coarsened_zoom.png')
         img = PIL.Image.open('contour.png')
         imgcrop = img.crop((0, 0, displaysize[0], displaysize[1]))
         imgcrop.save('contour.png')
